@@ -274,20 +274,22 @@ struct ToastView: View {
                     }
                     
                     if let imageUrl  {
-                        LazyImage(url: imageUrl ) { state in
-                            if let image = state.image {
+                        AsyncImage(url: imageUrl) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 26, height: 26)
                                     .clipShape(RoundedRectangle(cornerRadius: 6))
-                            } else if state.error != nil {
-                                Text(state.error?.localizedDescription ?? "Error")
-                            } else {
+                            case .failure(let error):
+                                Text(error.localizedDescription)
+                            @unknown default:
                                 ProgressView()
                             }
                         }
-                        .processors([.resize(width: 26)])
                         .frame(width: 26, height: 26)
                         .padding(.trailing, 6)
                     }
@@ -321,20 +323,22 @@ struct ToastView: View {
                             }
                             Spacer()
                             if let imageUrl  {
-                                LazyImage(url: imageUrl ) { state in
-                                    if let image = state.image {
+                                AsyncImage(url: imageUrl) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                    case .success(let image):
                                         image
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 46, height: 46)
                                             .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    } else if state.error != nil {
-                                        Text(state.error?.localizedDescription ?? "Error")
-                                    } else {
+                                    case .failure(let error):
+                                        Text(error.localizedDescription)
+                                    @unknown default:
                                         ProgressView()
                                     }
                                 }
-                                .processors([.resize(width: 46)])
                                 .frame(width: 46, height: 46)
                                 .padding(.trailing, 6)
                             }
