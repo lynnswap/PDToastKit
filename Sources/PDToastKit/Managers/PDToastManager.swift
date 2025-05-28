@@ -12,16 +12,16 @@ import Observation
         _ edge: ToastEdge,
         _ type: ToastType,
         _ message: String,
-        additionalMessage: String? = nil,
+        detail: String? = nil,
         imageURL: URL? = nil,
         imageURLString: String? = nil
     ) {
         if let imageURL {
-            self._present(edge, type, message: message, additionalMessage: additionalMessage, imageUrl: imageURL)
+            self._present(edge, type, message: message, detail: detail, imageUrl: imageURL)
         } else if let imageURLString {
-            self._present(edge, type, message: message, additionalMessage: additionalMessage, imageUrl: URL(string: imageURLString))
+            self._present(edge, type, message: message, detail: detail, imageUrl: URL(string: imageURLString))
         } else {
-            self._present(edge, type, message: message, additionalMessage: additionalMessage, imageUrl: nil)
+            self._present(edge, type, message: message, detail: detail, imageUrl: nil)
         }
     }
 
@@ -29,7 +29,7 @@ import Observation
         _ edge: ToastEdge,
         _ type: ToastType,
         localized key: LocalizedStringResource,
-        additionalMessage: String? = nil,
+        detail: String? = nil,
         imageURL: URL? = nil,
         imageURLString: String? = nil
     ) {
@@ -38,7 +38,7 @@ import Observation
             edge,
             type,
             String(localized:key),
-            additionalMessage: additionalMessage,
+            detail: detail,
             imageURL: imageURL,
             imageURLString: imageURLString
         )
@@ -48,14 +48,14 @@ import Observation
         _ edge: ToastEdge,
         _ type: ToastType,
         message: String,
-        additionalMessage: String?,
+        detail: String?,
         imageUrl: URL?
     ) {
         Task {
             let item = ToastItem(
                 type: type,
                 message: message,
-                additionalMessage: additionalMessage,
+                detail: detail,
                 imageUrl: imageUrl,
                 edge: edge
             )

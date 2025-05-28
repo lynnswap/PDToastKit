@@ -27,8 +27,8 @@ struct TopToastView: View {
                             .foregroundColor(.primary)
                             .font(.callout)
                             .padding(.leading, 6)
-                        if let additionalMessage = item.additionalMessage{
-                            Text(additionalMessage)
+                        if let detail = item.detail{
+                            Text(detail)
                                 .foregroundColor(.secondary)
                                 .font(.caption)
                                 .padding(.leading, 6)
