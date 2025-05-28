@@ -28,16 +28,16 @@ import Observation
     public func present(
         _ edge: ToastEdge,
         _ type: ToastType,
-        localized key: String,
+        localized key: LocalizedStringResource,
         additionalMessage: String? = nil,
         imageURL: URL? = nil,
         imageURLString: String? = nil
     ) {
-        let message = NSLocalizedString(key, bundle: .main, comment: "")
+       
         self.present(
             edge,
             type,
-            message,
+            String(localized:key),
             additionalMessage: additionalMessage,
             imageURL: imageURL,
             imageURLString: imageURLString
