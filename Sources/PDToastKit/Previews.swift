@@ -1,49 +1,38 @@
 #if DEBUG
 import SwiftUI
 
-struct StackedToastViewWrapper: View {
+struct ToastExampleView: View {
     @State private var toast = PDToastManager()
-    private let thumbnailURL = "https://avatars.githubusercontent.com/u/65545348?s=400&u=58e545eff3a11cd6dce9fd1e5f4d8a108ac53247&v=4"
+    private let thumbnailURL = URL(string: "https://avatars.githubusercontent.com/u/65545348?s=64")!
+
     var body: some View {
-        List {
-            RoundedRectangle(cornerRadius: 16).foregroundStyle(.indigo)
-                .frame(height: 80)
-            Button {
-                toast.present(.top, .success("Copied"), additionalMessage: "https://aaaa.com\nhttps://aaaa.com\nhttps://aaaa.com")
-            } label: {
-                RoundedRectangle(cornerRadius: 16).foregroundStyle(.blue)
-                    .frame(height: 80)
-            }
-            Button {
+        VStack(spacing: 24) {
+            Button("Show Success") {
                 toast.present(.top, .success("Copied"))
-            } label: {
-                RoundedRectangle(cornerRadius: 16).foregroundStyle(.cyan)
-                    .frame(height: 80)
             }
-            Button {
-                toast.present(.bottom, .success("Copied"), additionalMessage: "https://aaaa.comhttps://aaaa.comhttps://aaaa.comhttps://aaaa.comhttps://aaaa.com")
-            } label: {
-                RoundedRectangle(cornerRadius: 16).foregroundStyle(.blue)
-                    .frame(height: 80)
+
+            Button("Show Error with Detail") {
+                toast.present(
+                    .top,
+                    .error("Failed"),
+                    additionalMessage: "Something went wrong"
+                )
             }
-            Button {
-                toast.present(.top, .success("Copied"), additionalMessage: "https://aaaa.com\nhttps://aaaa.com\nhttps://aaaa.com", imageURLString: thumbnailURL)
-            } label: {
-                RoundedRectangle(cornerRadius: 16).foregroundStyle(.cyan)
-                    .frame(height: 80)
-            }
-            Button {
-                toast.present(.bottom, .success("Copied"), additionalMessage: "https://aaaa.com\nhttps://aaaa.com\nhttps://aaaa.com", imageURLString: thumbnailURL)
-            } label: {
-                RoundedRectangle(cornerRadius: 16).foregroundStyle(.cyan)
-                    .frame(height: 80)
+
+            Button("Show Thanks with Image") {
+                toast.present(
+                    .bottom,
+                    .thanks("Thanks"),
+                    imageURL: thumbnailURL
+                )
             }
         }
+        .padding()
         .stackedToast(manager: toast)
     }
 }
 
 #Preview {
-    StackedToastViewWrapper()
+    ToastExampleView()
 }
 #endif
