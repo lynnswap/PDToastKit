@@ -5,7 +5,8 @@ PDToastKit is a lightweight Swift package that presents temporary toast messages
 ## Features
 
 - Present toasts from the top or bottom edge
-- Success, warning, error and thanks styles
+ - Success, warning, error and thanks styles
+ - Create custom toast types in extensions
 - Optional additional message and thumbnail
 - Automatic dismissal after a short duration
 
@@ -36,6 +37,25 @@ Present a toast using the manager:
 
 ```swift
 toast.present(.top, .success("Copied"))
+```
+
+Create a custom toast type:
+
+```swift
+let custom = ToastType(message: "Custom", iconName: "star", color: .blue)
+toast.present(.top, custom)
+```
+
+You can extend `ToastType` to define reusable styles:
+
+```swift
+extension ToastType {
+    static func info(_ message: String) -> Self {
+        Self(message: message, iconName: "info.circle", color: .blue)
+    }
+}
+
+toast.present(.top, .info("Info"))
 ```
 
 See `Previews.swift` for more examples.
