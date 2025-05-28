@@ -1,44 +1,38 @@
 import SwiftUI
 
-public enum ToastType {
-    case success(String)
-    case error(String)
-    case warning(String)
-    case thanks(String)
+public struct ToastType {
+    public var message: String
+    public var iconName: String
+    public var color: Color
+    public var duration: Double
 
-    var message: String {
-        switch self {
-        case .success(let message): return message
-        case .warning(let message): return message
-        case .error(let message): return message
-        case .thanks(let message): return message
-        }
+    public init(
+        message: String,
+        iconName: String,
+        color: Color,
+        duration: Double = 5.0
+    ) {
+        self.message = message
+        self.iconName = iconName
+        self.color = color
+        self.duration = duration
+    }
+}
+
+extension ToastType {
+    public static func success(_ message: String) -> Self {
+        Self(message: message, iconName: "checkmark.circle", color: .green)
     }
 
-    var iconName: String {
-        switch self {
-        case .success: return "checkmark.circle"
-        case .warning: return "exclamationmark.triangle"
-        case .error: return "xmark.circle"
-        case .thanks: return "heart.fill"
-        }
+    public static func error(_ message: String) -> Self {
+        Self(message: message, iconName: "xmark.circle", color: .red)
     }
 
-    var color: Color {
-        switch self {
-        case .success: return .green
-        case .warning: return .yellow
-        case .error: return .red
-        case .thanks: return .pink
-        }
+    public static func warning(_ message: String) -> Self {
+        Self(message: message, iconName: "exclamationmark.triangle", color: .yellow)
     }
 
-    var duration: Double {
-        switch self {
-        case .success: return 5.0
-        case .warning: return 5.0
-        case .error: return 5.0
-        case .thanks: return 6.0
-        }
+    public static func thanks(_ message: String) -> Self {
+        Self(message: message, iconName: "heart.fill", color: .pink, duration: 6.0)
     }
 }
