@@ -4,6 +4,7 @@ struct StackedToastView: View {
     var manager: PDToastManager
     var paddingTop: CGFloat
     var paddingBottom: CGFloat
+    var maxWidth:CGFloat?
     
     var body: some View {
         ZStack{
@@ -26,6 +27,6 @@ struct StackedToastView: View {
             .padding(.bottom, paddingBottom)
             .animation(.bouncy, value: manager.bottomToasts.count)
         }
-        .frame(maxWidth: 600)
+        .frame(maxWidth: maxWidth)
     }
 }
