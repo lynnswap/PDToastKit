@@ -6,7 +6,7 @@ struct ToastExampleView: View {
     private let thumbnailURL = URL(string: "https://avatars.githubusercontent.com/u/65545348?s=64")!
 
     var body: some View {
-        VStack(spacing: 24) {
+        List{
             Button("Show Success") {
                 toast.present(.top, .success("Copied"))
             }
@@ -27,7 +27,6 @@ struct ToastExampleView: View {
                 )
             }
         }
-        .padding()
         .stackedToast(manager: toast)
     }
 }
