@@ -36,26 +36,32 @@ var body: some View {
 Present a toast using the manager:
 
 ```swift
-toast.present(.top, .success("Copied"))
+toast.present(.top, .success, "Copied")
+```
+
+Use a localization key by specifying the `localized` argument:
+
+```swift
+toast.present(.top, .success, localized: "toast_copied")
 ```
 
 Create a custom toast type:
 
 ```swift
-let custom = ToastType(message: "Custom", iconName: "star", color: .blue)
-toast.present(.top, custom)
+let custom = ToastType(iconName: "star", color: .blue)
+toast.present(.top, custom, "Custom")
 ```
 
 You can extend `ToastType` to define reusable styles:
 
 ```swift
 extension ToastType {
-    static func info(_ message: String) -> Self {
-        Self(message: message, iconName: "info.circle", color: .blue)
+    static var info: Self {
+        Self(iconName: "info.circle", color: .blue)
     }
 }
 
-toast.present(.top, .info("Info"))
+toast.present(.top, .info, "Info")
 ```
 
 See `Sources/PDToastKit/Examples/Previews.swift` for more examples.

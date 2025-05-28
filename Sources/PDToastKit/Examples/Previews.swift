@@ -8,19 +8,24 @@ struct ToastExampleView: View {
     var body: some View {
         List{
             Button(String("Show Success")) {
-                toast.present(.top, .success("Copied"))
+                toast.present(.top, .success, "Copied")
+            }
+            Button(String("Show Localized")) {
+                toast.present(.top, .success, localized: "toast_copied")
             }
             Button(String("Show Error with Detail")) {
                 toast.present(
                     .top,
-                    .error("Failed"),
+                    .error,
+                    "Failed",
                     additionalMessage: "Something went wrong"
                 )
             }
             Button(String("Show Thanks with Image")) {
                 toast.present(
                     .bottom,
-                    .thanks("Thanks"),
+                    .thanks,
+                    "Thanks",
                     imageURL: thumbnailURL
                 )
             }
