@@ -17,11 +17,16 @@ public struct ToastType {
 }
 
 extension ToastType {
-    public static let success = Self(iconName: "checkmark.circle", color: .green)
-
-    public static let error = Self(iconName: "xmark.circle", color: .red)
-
-    public static let warning = Self(iconName: "exclamationmark.triangle", color: .yellow)
-
-    public static let thanks = Self(iconName: "heart.fill", color: .pink, duration: 6.0)
+    public static var success : Self {
+        Self(iconName: "checkmark.circle", color: .green)
+    }
+    public static var error : Self {
+        Self(iconName: "xmark.circle", color: .red)
+    }
+    public static var warning : Self {
+        Self(iconName: "exclamationmark.triangle", color: .yellow)
+    }
+    public static var thanks : Self {
+        Self(iconName: "heart.fill", color: .pink, duration: 6.0)
+    }
 }
