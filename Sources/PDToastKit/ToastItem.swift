@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 public class ToastItem: Identifiable {
     public let id = UUID()
@@ -6,14 +6,14 @@ public class ToastItem: Identifiable {
     let message: String
     let additionalMessage: String?
     let imageUrl: URL?
-    let edge: Edge
+    let edge: ToastEdge
 
     init(
         type: ToastType,
         message: String,
         additionalMessage: String? = nil,
         imageUrl: URL? = nil,
-        edge: Edge
+        edge: ToastEdge
     ) {
         self.type = type
         self.message = message
