@@ -7,19 +7,17 @@ struct ToastExampleView: View {
 
     var body: some View {
         List{
-            Button("Show Success") {
+            Button(String("Show Success")) {
                 toast.present(.top, .success("Copied"))
             }
-
-            Button("Show Error with Detail") {
+            Button(String("Show Error with Detail")) {
                 toast.present(
                     .top,
                     .error("Failed"),
                     additionalMessage: "Something went wrong"
                 )
             }
-
-            Button("Show Thanks with Image") {
+            Button(String("Show Thanks with Image")) {
                 toast.present(
                     .bottom,
                     .thanks("Thanks"),
