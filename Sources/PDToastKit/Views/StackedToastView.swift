@@ -29,8 +29,3 @@ struct StackedToastView: View {
         .frame(maxWidth: 600)
     }
 }
-struct StackedToastSectionView: View {
-    var body: some View{
-        
-    }
-}
