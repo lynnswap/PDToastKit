@@ -7,7 +7,7 @@ struct ToastView: View {
     var message: String
     var additionalMessage: String?
     var imageUrl: URL?
-    var edge: Edge
+    var edge: ToastEdge
 
     var body: some View {
         ZStack {

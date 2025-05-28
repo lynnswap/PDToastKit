@@ -1,4 +1,5 @@
-import SwiftUI
+import Foundation
+import Observation
 
 @MainActor
 @Observable public class PDToastManager {
@@ -7,7 +8,7 @@ import SwiftUI
     public init() {}
 
     public func present(
-        _ edge: Edge,
+        _ edge: ToastEdge,
         _ type: ToastType,
         additionalMessage: String? = nil,
         imageURL: URL? = nil,
@@ -23,7 +24,7 @@ import SwiftUI
     }
 
     private func innerPresent(
-        _ edge: Edge,
+        _ edge: ToastEdge,
         _ type: ToastType,
         additionalMessage: String?,
         imageUrl: URL?
