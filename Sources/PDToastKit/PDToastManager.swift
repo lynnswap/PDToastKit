@@ -3,7 +3,8 @@ import Observation
 
 @MainActor
 @Observable public class PDToastManager {
-    var toasts: [ToastItem] = []
+    var topToasts: [ToastItem] = []
+    var bottomToasts: [ToastItem] = []
 
     public init() {}
 
@@ -37,13 +38,16 @@ import Observation
                 imageUrl: imageUrl,
                 edge: edge
             )
-            toasts.append(item)
-            try? await Task.sleep(for: .seconds(type.duration))
-            self.removeToast(item: item)
+            switch edge{
+            case .top:
+                topToasts.append(item)
+                try? await Task.sleep(for: .seconds(type.duration))
+                topToasts.removeAll(where: { $0.id == item.id })
+            case .bottom:
+                bottomToasts.append(item)
+                try? await Task.sleep(for: .seconds(type.duration))
+                bottomToasts.removeAll(where: { $0.id == item.id })
+            }
         }
-    }
-
-    func removeToast(item: ToastItem) {
-        toasts.removeAll(where: { $0.id == item.id })
     }
 }

@@ -5,30 +5,32 @@ struct StackedToastView: View {
     var paddingTop: CGFloat
     var paddingBottom: CGFloat
     
-    @ViewBuilder
-    private func toastSection(for edge: ToastEdge) -> some View {
-        ForEach(manager.toasts.filter { $0.edge == edge }) { toast in
-            ToastView(
-                type: toast.type,
-                message: toast.message,
-                additionalMessage: toast.additionalMessage,
-                imageUrl: toast.imageUrl,
-                edge: edge
-            )
-            .onTapGesture { manager.removeToast(item: toast) }
-        }
-    }
-    
     var body: some View {
-        VStack {
-            toastSection(for: .top)
-            Spacer()
-            toastSection(for: .bottom)
+        ZStack{
+            VStack {
+                ForEach(manager.topToasts) { toast in
+                    TopToastView(item:toast)
+                        .onTapGesture { manager.topToasts.removeAll(where: {$0.id == toast.id}) }
+                }
+                Spacer()
+            }
+            .padding(.top, paddingTop)
+            .animation(.bouncy, value: manager.topToasts.count)
+            VStack {
+                Spacer()
+                ForEach(manager.bottomToasts) { toast in
+                    BottomToastView(item:toast)
+                        .onTapGesture { manager.bottomToasts.removeAll(where: {$0.id == toast.id}) }
+                }
+            }
+            .padding(.bottom, paddingBottom)
+            .animation(.bouncy, value: manager.bottomToasts.count)
         }
         .frame(maxWidth: 600)
-        .transition(.opacity)
-        .animation(.bouncy, value: manager.toasts.count)
-        .padding(.top, paddingTop)
-        .padding(.bottom, paddingBottom)
+    }
+}
+struct StackedToastSectionView: View {
+    var body: some View{
+        
     }
 }
