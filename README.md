@@ -7,7 +7,7 @@ PDToastKit is a lightweight Swift package that presents temporary toast messages
 - Present toasts from the top or bottom edge
  - Success, warning, error and thanks styles
  - Create custom toast types in extensions
-- Optional additional message and thumbnail
+- Optional detail message and thumbnail
 - Automatic dismissal after a short duration
 
 ## Installation

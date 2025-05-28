@@ -18,7 +18,7 @@ struct ToastExampleView: View {
                     .top,
                     .error,
                     "Failed",
-                    additionalMessage: "Something went wrong"
+                    detail: "Something went wrong"
                 )
             }
             Button(String("Show Thanks with Image")) {
