@@ -58,7 +58,7 @@ extension ToastType {
 toast.present(.top, .info("Info"))
 ```
 
-See `Examples/Previews.swift` for more examples.
+See `Sources/PDToastKit/Examples/Previews.swift` for more examples.
 
 ## License
 
