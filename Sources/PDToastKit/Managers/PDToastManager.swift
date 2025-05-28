@@ -16,15 +16,15 @@ import Observation
         imageURLString: String? = nil
     ) {
         if let imageURL {
-            self.innerPresent(edge, type, additionalMessage: additionalMessage, imageUrl: imageURL)
+            self._present(edge, type, additionalMessage: additionalMessage, imageUrl: imageURL)
         } else if let imageURLString {
-            self.innerPresent(edge, type, additionalMessage: additionalMessage, imageUrl: URL(string: imageURLString))
+            self._present(edge, type, additionalMessage: additionalMessage, imageUrl: URL(string: imageURLString))
         } else {
-            self.innerPresent(edge, type, additionalMessage: additionalMessage, imageUrl: nil)
+            self._present(edge, type, additionalMessage: additionalMessage, imageUrl: nil)
         }
     }
 
-    private func innerPresent(
+    private func _present(
         _ edge: ToastEdge,
         _ type: ToastType,
         additionalMessage: String?,
