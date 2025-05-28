@@ -11,29 +11,50 @@ import Observation
     public func present(
         _ edge: ToastEdge,
         _ type: ToastType,
+        _ message: String,
         additionalMessage: String? = nil,
         imageURL: URL? = nil,
         imageURLString: String? = nil
     ) {
         if let imageURL {
-            self._present(edge, type, additionalMessage: additionalMessage, imageUrl: imageURL)
+            self._present(edge, type, message: message, additionalMessage: additionalMessage, imageUrl: imageURL)
         } else if let imageURLString {
-            self._present(edge, type, additionalMessage: additionalMessage, imageUrl: URL(string: imageURLString))
+            self._present(edge, type, message: message, additionalMessage: additionalMessage, imageUrl: URL(string: imageURLString))
         } else {
-            self._present(edge, type, additionalMessage: additionalMessage, imageUrl: nil)
+            self._present(edge, type, message: message, additionalMessage: additionalMessage, imageUrl: nil)
         }
+    }
+
+    public func present(
+        _ edge: ToastEdge,
+        _ type: ToastType,
+        localized key: String,
+        additionalMessage: String? = nil,
+        imageURL: URL? = nil,
+        imageURLString: String? = nil
+    ) {
+        let message = NSLocalizedString(key, bundle: .main, comment: "")
+        self.present(
+            edge,
+            type,
+            message,
+            additionalMessage: additionalMessage,
+            imageURL: imageURL,
+            imageURLString: imageURLString
+        )
     }
 
     private func _present(
         _ edge: ToastEdge,
         _ type: ToastType,
+        message: String,
         additionalMessage: String?,
         imageUrl: URL?
     ) {
         Task {
             let item = ToastItem(
                 type: type,
-                message: type.message,
+                message: message,
                 additionalMessage: additionalMessage,
                 imageUrl: imageUrl,
                 edge: edge
