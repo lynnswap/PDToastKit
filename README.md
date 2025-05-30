@@ -66,6 +66,12 @@ toast.present(.top, .info, "Info")
 
 See `Sources/PDToastKit/Examples/Previews.swift` for more examples.
 
+## Apps Using
+
+<p float="left">
+    <a href="https://apps.apple.com/jp/app/tweetpd/id1671411031"><img src="https://i.imgur.com/AC6eGdx.png" height="65"></a>
+</p>
+
 ## License
 
 Released under the [MIT License](LICENSE).
