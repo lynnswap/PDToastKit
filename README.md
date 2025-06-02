@@ -45,6 +45,12 @@ Use a localization key by specifying the `localized` argument:
 toast.present(.top, .success, localized: "toast_copied")
 ```
 
+Include additional information with the `detail` parameter:
+
+```swift
+toast.present(.top, .error, "Failed", detail: "Something went wrong")
+```
+
 Create a custom toast type:
 
 ```swift
