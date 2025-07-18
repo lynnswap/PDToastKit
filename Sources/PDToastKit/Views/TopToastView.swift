@@ -72,3 +72,15 @@ struct TopToastView: View {
     }
 }
 
+#if DEBUG
+#Preview("TopToastView") {
+    TopToastView(
+        item: ToastItem(
+            type: .success,
+            message: "Copied",
+            edge: .top
+        )
+    )
+}
+#endif
+

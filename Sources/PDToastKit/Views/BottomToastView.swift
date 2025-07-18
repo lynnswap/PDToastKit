@@ -62,3 +62,16 @@ struct BottomToastView: View {
     }
 }
 
+#if DEBUG
+#Preview("BottomToastView") {
+    BottomToastView(
+        item: ToastItem(
+            type: .thanks,
+            message: "Thanks",
+            imageUrl: URL(string: "https://avatars.githubusercontent.com/u/65545348?s=64"),
+            edge: .bottom
+        )
+    )
+}
+#endif
+
