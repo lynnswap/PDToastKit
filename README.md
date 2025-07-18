@@ -15,7 +15,7 @@ PDToastKit is a lightweight Swift package that presents temporary toast messages
 Add `PDToastKit` to your package dependencies:
 
 ```swift
-.package(url: "https://github.com/lynnswap/PDToastKit", from: "0.1.3")
+.package(url: "https://github.com/lynnswap/PDToastKit", from: "0.2.0")
 ```
 
 Then include `PDToastKit` as a dependency of your target.
