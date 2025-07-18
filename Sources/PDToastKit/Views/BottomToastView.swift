@@ -51,14 +51,31 @@ struct BottomToastView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
-        .background(.thinMaterial)
-        .cornerRadius(10)
-        .shadow(radius: 5)
+        .toastStyle()
         .animation(.default, value: animate)
         .task {
             try? await Task.sleep(for: .seconds(0.1))
             animate = true
         }
+    }
+}
+private extension View{
+    func toastStyle() -> some View{
+#if swift(>=6.2)
+        if #available(iOS 26.0, macOS 26.0, *) {
+            return self.glassEffect()
+        } else {
+            return self
+                .background(.thinMaterial)
+                .cornerRadius(10)
+                .shadow(radius: 5)
+        }
+#else
+        return self
+            .background(.thinMaterial)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+#endif
     }
 }
 

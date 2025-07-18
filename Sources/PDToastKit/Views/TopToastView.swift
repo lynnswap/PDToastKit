@@ -58,9 +58,7 @@ struct TopToastView: View {
                 .frame(minHeight: 30)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 10)
-                .background(.thinMaterial)
-                .cornerRadius(20)
-                .shadow(radius: 5)
+                .toastStyle()
                 Spacer()
             }
         }
@@ -69,6 +67,25 @@ struct TopToastView: View {
             try? await Task.sleep(for: .seconds(0.1))
             animate = true
         }
+    }
+}
+private extension View{
+    func toastStyle() -> some View{
+#if swift(>=6.2)
+        if #available(iOS 26.0, macOS 26.0, *) {
+            return self.glassEffect()
+        } else {
+            return self
+                .background(.thinMaterial)
+                .cornerRadius(20)
+                .shadow(radius: 5)
+        }
+#else
+        return self
+            .background(.thinMaterial)
+            .cornerRadius(20)
+            .shadow(radius: 5)
+#endif
     }
 }
 
