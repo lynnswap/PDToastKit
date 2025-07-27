@@ -8,6 +8,7 @@
 import SwiftUI
 struct BottomToastView: View {
     public var item: ToastItem
+    var manager: PDToastManager
     @State private var animate: Bool = false
     
     var body: some View {
@@ -57,6 +58,11 @@ struct BottomToastView: View {
             try? await Task.sleep(for: .seconds(0.1))
             animate = true
         }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in manager.pause(item.id) }
+                .onEnded { _ in manager.resume(item.id) }
+        )
     }
 }
 private extension View{
@@ -87,7 +93,8 @@ private extension View{
             message: "Thanks",
             imageUrl: URL(string: "https://avatars.githubusercontent.com/u/65545348?s=64"),
             edge: .bottom
-        )
+        ),
+        manager: PDToastManager()
     )
 }
 #endif

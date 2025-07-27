@@ -7,6 +7,7 @@ public class ToastItem: Identifiable {
     let detail: String?
     let imageUrl: URL?
     let edge: ToastEdge
+    var isPaused: Bool = false
 
     init(
         type: ToastType,

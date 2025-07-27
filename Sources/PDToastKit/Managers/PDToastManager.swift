@@ -62,13 +62,34 @@ import Observation
             switch edge{
             case .top:
                 topToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                topToasts.removeAll(where: { $0.id == item.id })
+                await self.monitor(item: item, in: &topToasts)
             case .bottom:
                 bottomToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                bottomToasts.removeAll(where: { $0.id == item.id })
+                await self.monitor(item: item, in: &bottomToasts)
             }
+        }
+    }
+
+    private func monitor(item: ToastItem, in array: inout [ToastItem]) async {
+        var remaining = item.type.duration
+        while remaining > 0 {
+            try? await Task.sleep(for: .milliseconds(100))
+            if !item.isPaused {
+                remaining -= 0.1
+            }
+        }
+        array.removeAll(where: { $0.id == item.id })
+    }
+
+    func pause(_ id: UUID) {
+        if let item = topToasts.first(where: { $0.id == id }) ?? bottomToasts.first(where: { $0.id == id }) {
+            item.isPaused = true
+        }
+    }
+
+    func resume(_ id: UUID) {
+        if let item = topToasts.first(where: { $0.id == id }) ?? bottomToasts.first(where: { $0.id == id }) {
+            item.isPaused = false
         }
     }
 }
