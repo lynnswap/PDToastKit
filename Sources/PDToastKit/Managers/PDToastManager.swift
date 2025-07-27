@@ -5,6 +5,38 @@ import Observation
 @Observable public class PDToastManager {
     var topToasts: [ToastItem] = []
     var bottomToasts: [ToastItem] = []
+    private var tasks: [UUID: Task<Void, Never>] = [:]
+
+    private func startTimer(for item: ToastItem) {
+        tasks[item.id]?.cancel()
+        tasks[item.id] = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(item.type.duration))
+            await self?.removeToast(item)
+        }
+    }
+
+    private func cancelTimer(for item: ToastItem) {
+        tasks[item.id]?.cancel()
+        tasks[item.id] = nil
+    }
+
+    func pause(_ item: ToastItem) {
+        cancelTimer(for: item)
+    }
+
+    func resume(_ item: ToastItem) {
+        startTimer(for: item)
+    }
+
+    private func removeToast(_ item: ToastItem) {
+        switch item.edge {
+        case .top:
+            topToasts.removeAll(where: { $0.id == item.id })
+        case .bottom:
+            bottomToasts.removeAll(where: { $0.id == item.id })
+        }
+        tasks[item.id] = nil
+    }
 
     public init() {}
 
@@ -51,24 +83,19 @@ import Observation
         detail: String?,
         imageUrl: URL?
     ) {
-        Task {
-            let item = ToastItem(
-                type: type,
-                message: message,
-                detail: detail,
-                imageUrl: imageUrl,
-                edge: edge
-            )
-            switch edge{
-            case .top:
-                topToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                topToasts.removeAll(where: { $0.id == item.id })
-            case .bottom:
-                bottomToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                bottomToasts.removeAll(where: { $0.id == item.id })
-            }
+        let item = ToastItem(
+            type: type,
+            message: message,
+            detail: detail,
+            imageUrl: imageUrl,
+            edge: edge
+        )
+        switch edge {
+        case .top:
+            topToasts.append(item)
+        case .bottom:
+            bottomToasts.append(item)
         }
+        startTimer(for: item)
     }
 }
