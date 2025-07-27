@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftUI
 
 public struct ToastType {
@@ -30,3 +31,4 @@ extension ToastType {
         Self(iconName: "heart.fill", color: .pink, duration: 6.0)
     }
 }
+#endif

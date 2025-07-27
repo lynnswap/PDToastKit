@@ -5,10 +5,12 @@
 //  Created by lynnswap on 2025/05/28.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 
 struct TopToastView: View {
+    var manager: PDToastManager
     public var item: ToastItem
     @State private var animate: Bool = false
 
@@ -63,6 +65,13 @@ struct TopToastView: View {
             }
         }
         .animation(.default, value: animate)
+        .onLongPressGesture(minimumDuration: 0, pressing: { pressing in
+            if pressing {
+                manager.hold(item)
+            } else {
+                manager.resume(item)
+            }
+        }, perform: {})
         .task {
             try? await Task.sleep(for: .seconds(0.1))
             animate = true
@@ -86,12 +95,17 @@ private extension View{
             .cornerRadius(20)
             .shadow(radius: 5)
 #endif
+
+#endif
+
+#endif
     }
 }
 
 #if DEBUG
 #Preview("TopToastView") {
     TopToastView(
+        manager: PDToastManager(),
         item: ToastItem(
             type: .success,
             message: "Copied",
@@ -101,3 +115,4 @@ private extension View{
 }
 #endif
 
+#endif

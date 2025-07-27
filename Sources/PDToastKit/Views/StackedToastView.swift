@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct StackedToastView: View {
@@ -10,7 +11,7 @@ struct StackedToastView: View {
         ZStack{
             VStack {
                 ForEach(manager.topToasts) { toast in
-                    TopToastView(item:toast)
+                    TopToastView(manager: manager, item: toast)
                         .onTapGesture { manager.topToasts.removeAll(where: {$0.id == toast.id}) }
                 }
                 Spacer()
@@ -20,7 +21,7 @@ struct StackedToastView: View {
             VStack {
                 Spacer()
                 ForEach(manager.bottomToasts) { toast in
-                    BottomToastView(item:toast)
+                    BottomToastView(manager: manager, item: toast)
                         .onTapGesture { manager.bottomToasts.removeAll(where: {$0.id == toast.id}) }
                 }
             }
@@ -30,3 +31,4 @@ struct StackedToastView: View {
         .frame(maxWidth: maxWidth)
     }
 }
+#endif

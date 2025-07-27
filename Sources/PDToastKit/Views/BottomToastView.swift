@@ -5,8 +5,10 @@
 //  Created by lynnswap on 2025/05/28.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 struct BottomToastView: View {
+    var manager: PDToastManager
     public var item: ToastItem
     @State private var animate: Bool = false
     
@@ -53,6 +55,13 @@ struct BottomToastView: View {
         .padding(.vertical, 8)
         .toastStyle()
         .animation(.default, value: animate)
+        .onLongPressGesture(minimumDuration: 0, pressing: { pressing in
+            if pressing {
+                manager.hold(item)
+            } else {
+                manager.resume(item)
+            }
+        }, perform: {})
         .task {
             try? await Task.sleep(for: .seconds(0.1))
             animate = true
@@ -82,6 +91,7 @@ private extension View{
 #if DEBUG
 #Preview("BottomToastView") {
     BottomToastView(
+        manager: PDToastManager(),
         item: ToastItem(
             type: .thanks,
             message: "Thanks",
@@ -92,3 +102,4 @@ private extension View{
 }
 #endif
 
+#endif
