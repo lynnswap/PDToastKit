@@ -59,16 +59,31 @@ import Observation
                 imageUrl: imageUrl,
                 edge: edge
             )
-            switch edge{
+            switch edge {
             case .top:
                 topToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                topToasts.removeAll(where: { $0.id == item.id })
             case .bottom:
                 bottomToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                bottomToasts.removeAll(where: { $0.id == item.id })
             }
+            await monitor(item: item)
         }
+    }
+
+    private func monitor(item: ToastItem) async {
+        var elapsed: Double = 0
+        let duration = item.type.duration
+        while elapsed < duration {
+            try? await Task.sleep(for: .milliseconds(100))
+            if item.isInteracting {
+                continue
+            }
+            elapsed += 0.1
+        }
+        removeToast(id: item.id)
+    }
+
+    func removeToast(id: UUID) {
+        topToasts.removeAll(where: { $0.id == id })
+        bottomToasts.removeAll(where: { $0.id == id })
     }
 }

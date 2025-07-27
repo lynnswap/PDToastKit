@@ -11,7 +11,7 @@ struct StackedToastView: View {
             VStack {
                 ForEach(manager.topToasts) { toast in
                     TopToastView(item:toast)
-                        .onTapGesture { manager.topToasts.removeAll(where: {$0.id == toast.id}) }
+                        .toastInteraction(for: toast, manager: manager)
                 }
                 Spacer()
             }
@@ -21,7 +21,7 @@ struct StackedToastView: View {
                 Spacer()
                 ForEach(manager.bottomToasts) { toast in
                     BottomToastView(item:toast)
-                        .onTapGesture { manager.bottomToasts.removeAll(where: {$0.id == toast.id}) }
+                        .toastInteraction(for: toast, manager: manager)
                 }
             }
             .padding(.bottom, paddingBottom)
