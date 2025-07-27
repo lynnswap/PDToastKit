@@ -10,8 +10,13 @@ struct StackedToastView: View {
         ZStack{
             VStack {
                 ForEach(manager.topToasts) { toast in
-                    TopToastView(item:toast)
-                        .onTapGesture { manager.topToasts.removeAll(where: {$0.id == toast.id}) }
+                    TopToastView(item: toast)
+                        .onTapGesture { manager.dismiss(toast) }
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in manager.pauseDismissTimer(for: toast) }
+                                .onEnded { _ in manager.resumeDismissTimer(for: toast) }
+                        )
                 }
                 Spacer()
             }
@@ -20,8 +25,13 @@ struct StackedToastView: View {
             VStack {
                 Spacer()
                 ForEach(manager.bottomToasts) { toast in
-                    BottomToastView(item:toast)
-                        .onTapGesture { manager.bottomToasts.removeAll(where: {$0.id == toast.id}) }
+                    BottomToastView(item: toast)
+                        .onTapGesture { manager.dismiss(toast) }
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in manager.pauseDismissTimer(for: toast) }
+                                .onEnded { _ in manager.resumeDismissTimer(for: toast) }
+                        )
                 }
             }
             .padding(.bottom, paddingBottom)

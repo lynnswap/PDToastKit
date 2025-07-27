@@ -5,6 +5,7 @@ import Observation
 @Observable public class PDToastManager {
     var topToasts: [ToastItem] = []
     var bottomToasts: [ToastItem] = []
+    private var dismissTasks: [UUID: Task<Void, Never>] = [:]
 
     public init() {}
 
@@ -51,7 +52,8 @@ import Observation
         detail: String?,
         imageUrl: URL?
     ) {
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
             let item = ToastItem(
                 type: type,
                 message: message,
@@ -59,16 +61,37 @@ import Observation
                 imageUrl: imageUrl,
                 edge: edge
             )
-            switch edge{
+            switch edge {
             case .top:
                 topToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                topToasts.removeAll(where: { $0.id == item.id })
             case .bottom:
                 bottomToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                bottomToasts.removeAll(where: { $0.id == item.id })
             }
+            resumeDismissTimer(for: item)
+        }
+    }
+
+    func dismiss(_ item: ToastItem) {
+        switch item.edge {
+        case .top:
+            topToasts.removeAll { $0.id == item.id }
+        case .bottom:
+            bottomToasts.removeAll { $0.id == item.id }
+        }
+        dismissTasks[item.id]?.cancel()
+        dismissTasks[item.id] = nil
+    }
+
+    func pauseDismissTimer(for item: ToastItem) {
+        dismissTasks[item.id]?.cancel()
+    }
+
+    func resumeDismissTimer(for item: ToastItem) {
+        dismissTasks[item.id]?.cancel()
+        dismissTasks[item.id] = Task { [weak self] in
+            guard let self else { return }
+            try? await Task.sleep(for: .seconds(item.type.duration))
+            await self.dismiss(item)
         }
     }
 }
