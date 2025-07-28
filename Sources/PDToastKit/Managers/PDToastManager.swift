@@ -83,4 +83,19 @@ import Observation
         topToasts.removeAll { $0.id == id }
         bottomToasts.removeAll { $0.id == id }
     }
+
+    /// Cancel the scheduled dismiss task for the toast.
+    func pause(_ id: UUID) {
+        tasks[id]?.cancel()
+        tasks.removeValue(forKey: id)
+    }
+
+    /// Restart the dismiss task for the toast.
+    func resume(_ item: ToastItem) {
+        let task = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(item.type.duration))
+            self?.expireToast(item.id)
+        }
+        tasks[item.id] = task
+    }
 }
