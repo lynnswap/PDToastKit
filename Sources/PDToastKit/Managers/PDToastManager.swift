@@ -77,9 +77,10 @@ import Observation
         tasks[item.id] = task
     }
 
-    public func dismiss(_ id: UUID, edge: ToastEdge) {
+    public func dismiss(toast: ToastItem) {
+        let id = toast.id
         tasks[id]?.cancel()
-        expireToast(id, edge: edge)
+        expireToast(id, edge: toast.edge)
     }
 
     private func expireToast(_ id: UUID, edge: ToastEdge) {

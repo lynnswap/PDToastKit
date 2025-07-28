@@ -12,7 +12,7 @@ struct StackedToastView: View {
                 ForEach(manager.topToasts) { toast in
                     TopToastView(item: toast)
                         .onTapGesture {
-                            manager.dismiss(toast.id, edge: .top)
+                            manager.dismiss(toast: toast)
                         }
                         .onLongPressGesture(
                             perform: {
@@ -34,7 +34,7 @@ struct StackedToastView: View {
                 ForEach(manager.bottomToasts) { toast in
                     BottomToastView(item: toast)
                         .onTapGesture {
-                            manager.dismiss(toast.id, edge: .bottom)
+                            manager.dismiss(toast: toast)
                         }
                         .onLongPressGesture(
                             perform: {
