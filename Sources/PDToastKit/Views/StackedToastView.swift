@@ -11,19 +11,7 @@ struct StackedToastView: View {
             VStack {
                 ForEach(manager.topToasts) { toast in
                     TopToastView(item: toast)
-                        .onTapGesture {
-                            manager.dismiss(toast.id)
-                        }
-                        .onLongPressGesture(
-                            perform: {
-                                manager.pause(toast)
-                            },
-                            onPressingChanged: { pressing in
-                                if !pressing {
-                                    manager.resume(toast)
-                                }
-                            }
-                        )
+                        .toastGestures(for: toast, manager: manager)
                 }
                 Spacer()
             }
@@ -33,19 +21,7 @@ struct StackedToastView: View {
                 Spacer()
                 ForEach(manager.bottomToasts) { toast in
                     BottomToastView(item: toast)
-                        .onTapGesture {
-                            manager.dismiss(toast.id)
-                        }
-                        .onLongPressGesture(
-                            perform: {
-                                manager.pause(toast)
-                            },
-                            onPressingChanged: { pressing in
-                                if !pressing {
-                                    manager.resume(toast)
-                                }
-                            }
-                        )
+                        .toastGestures(for: toast, manager: manager)
                 }
             }
             .padding(.bottom, paddingBottom)
