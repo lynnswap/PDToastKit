@@ -66,12 +66,13 @@ import Observation
             bottomToasts.append(item)
         }
 
+        let edge = item.edge
         let task = Task { [weak self] in
             try? await Task.sleep(for: .seconds(type.duration))
             if Task.isCancelled{
                 return
             }
-            self?.expireToast(item.id)
+            self?.expireToast(item.id, edge: edge)
         }
         tasks[item.id] = task
     }
@@ -81,10 +82,28 @@ import Observation
         expireToast(id)
     }
 
-    private func expireToast(_ id: UUID) {
+    private func expireToast(_ id: UUID, edge: ToastEdge? = nil) {
         tasks.removeValue(forKey: id)
-        topToasts.removeAll { $0.id == id }
-        bottomToasts.removeAll { $0.id == id }
+
+        func remove(from edge: ToastEdge) {
+            switch edge {
+            case .top:
+                topToasts.removeAll { $0.id == id }
+            case .bottom:
+                bottomToasts.removeAll { $0.id == id }
+            }
+        }
+
+        if let edge {
+            remove(from: edge)
+            return
+        }
+
+        if topToasts.contains(where: { $0.id == id }) {
+            remove(from: .top)
+        } else if bottomToasts.contains(where: { $0.id == id }) {
+            remove(from: .bottom)
+        }
     }
 
     /// Cancel the scheduled dismiss task for the toast.
@@ -101,12 +120,13 @@ import Observation
             return
         }
         item.isPaused = false
+        let edge = item.edge
         let task = Task { [weak self] in
             try? await Task.sleep(for: .seconds(item.type.duration))
             if Task.isCancelled{
                 return
             }
-            self?.expireToast(item.id)
+            self?.expireToast(item.id, edge: edge)
         }
         tasks[item.id] = task
     }
