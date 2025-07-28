@@ -77,14 +77,9 @@ import Observation
         tasks[item.id] = task
     }
 
-    public func dismiss(_ id: UUID) {
+    public func dismiss(_ id: UUID, edge: ToastEdge) {
         tasks[id]?.cancel()
-
-        if topToasts.contains(where: { $0.id == id }) {
-            expireToast(id, edge: .top)
-        } else if bottomToasts.contains(where: { $0.id == id }) {
-            expireToast(id, edge: .bottom)
-        }
+        expireToast(id, edge: edge)
     }
 
     private func expireToast(_ id: UUID, edge: ToastEdge) {
