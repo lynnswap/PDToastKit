@@ -79,30 +79,22 @@ import Observation
 
     public func dismiss(_ id: UUID) {
         tasks[id]?.cancel()
-        expireToast(id)
-    }
-
-    private func expireToast(_ id: UUID, edge: ToastEdge? = nil) {
-        tasks.removeValue(forKey: id)
-
-        func remove(from edge: ToastEdge) {
-            switch edge {
-            case .top:
-                topToasts.removeAll { $0.id == id }
-            case .bottom:
-                bottomToasts.removeAll { $0.id == id }
-            }
-        }
-
-        if let edge {
-            remove(from: edge)
-            return
-        }
 
         if topToasts.contains(where: { $0.id == id }) {
-            remove(from: .top)
+            expireToast(id, edge: .top)
         } else if bottomToasts.contains(where: { $0.id == id }) {
-            remove(from: .bottom)
+            expireToast(id, edge: .bottom)
+        }
+    }
+
+    private func expireToast(_ id: UUID, edge: ToastEdge) {
+        tasks.removeValue(forKey: id)
+
+        switch edge {
+        case .top:
+            topToasts.removeAll { $0.id == id }
+        case .bottom:
+            bottomToasts.removeAll { $0.id == id }
         }
     }
 
