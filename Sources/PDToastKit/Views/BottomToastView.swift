@@ -63,17 +63,19 @@ private extension View{
     func toastStyle() -> some View{
 #if swift(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
-            return self.glassEffect(.regular.interactive(),in:RoundedRectangle(cornerRadius: 10))
+            return self
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+                .glassEffect(.regular.interactive(),in:RoundedRectangle(cornerRadius: 10))
         } else {
             return self
-                .background(.thinMaterial)
-                .cornerRadius(10)
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+                .background(.thinMaterial,in:RoundedRectangle(cornerRadius: 10))
                 .shadow(radius: 5)
         }
 #else
         return self
-            .background(.thinMaterial)
-            .cornerRadius(10)
+            .contentShape(RoundedRectangle(cornerRadius: 10))
+            .background(.thinMaterial,in:RoundedRectangle(cornerRadius: 10))
             .shadow(radius: 5)
 #endif
     }
