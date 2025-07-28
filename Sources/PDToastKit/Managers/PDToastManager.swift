@@ -5,6 +5,7 @@ import Observation
 @Observable public class PDToastManager {
     var topToasts: [ToastItem] = []
     var bottomToasts: [ToastItem] = []
+    var tasks: [UUID: Task<Void, Never>] = [:]
 
     public init() {}
 
@@ -51,24 +52,35 @@ import Observation
         detail: String?,
         imageUrl: URL?
     ) {
-        Task {
-            let item = ToastItem(
-                type: type,
-                message: message,
-                detail: detail,
-                imageUrl: imageUrl,
-                edge: edge
-            )
-            switch edge{
-            case .top:
-                topToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                topToasts.removeAll(where: { $0.id == item.id })
-            case .bottom:
-                bottomToasts.append(item)
-                try? await Task.sleep(for: .seconds(type.duration))
-                bottomToasts.removeAll(where: { $0.id == item.id })
-            }
+        let item = ToastItem(
+            type: type,
+            message: message,
+            detail: detail,
+            imageUrl: imageUrl,
+            edge: edge
+        )
+        switch edge {
+        case .top:
+            topToasts.append(item)
+        case .bottom:
+            bottomToasts.append(item)
         }
+
+        let task = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(type.duration))
+            await self?.expireToast(item.id)
+        }
+        tasks[item.id] = task
+    }
+
+    public func dismiss(_ id: UUID) {
+        tasks[id]?.cancel()
+        expireToast(id)
+    }
+
+    private func expireToast(_ id: UUID) {
+        tasks.removeValue(forKey: id)
+        topToasts.removeAll { $0.id == id }
+        bottomToasts.removeAll { $0.id == id }
     }
 }
