@@ -68,7 +68,7 @@ import Observation
 
         let task = Task { [weak self] in
             try? await Task.sleep(for: .seconds(type.duration))
-            await self?.expireToast(item.id)
+            self?.expireToast(item.id)
         }
         tasks[item.id] = task
     }
