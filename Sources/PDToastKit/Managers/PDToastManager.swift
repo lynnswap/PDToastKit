@@ -88,13 +88,19 @@ import Observation
     }
 
     /// Cancel the scheduled dismiss task for the toast.
-    func pause(_ id: UUID) {
+    func pause(_ item: ToastItem) {
+        item.isPaused = true
+        let id = item.id
         tasks[id]?.cancel()
         tasks.removeValue(forKey: id)
     }
 
     /// Restart the dismiss task for the toast.
     func resume(_ item: ToastItem) {
+        if !item.isPaused{
+            return
+        }
+        item.isPaused = false
         let task = Task { [weak self] in
             try? await Task.sleep(for: .seconds(item.type.duration))
             if Task.isCancelled{
