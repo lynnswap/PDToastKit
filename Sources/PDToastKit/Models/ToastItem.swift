@@ -1,14 +1,15 @@
 import Foundation
 
 public class ToastItem: Identifiable {
-    public let id = UUID()
-    let type: ToastType
-    let message: String
-    let detail: String?
-    let imageUrl: URL?
-    let edge: ToastEdge
+    public var id = UUID()
+    public var type: ToastType
+    public var message: String
+    public var detail: String?
+    public var imageUrl: URL?
+    public var edge: ToastEdge
+    public var isPaused: Bool = false
 
-    init(
+    public init(
         type: ToastType,
         message: String,
         detail: String? = nil,
