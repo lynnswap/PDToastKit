@@ -4,7 +4,7 @@ extension View {
     func toastGestures(for toast: ToastItem, manager: PDToastManager) -> some View {
         self
             .onTapGesture {
-                manager.dismiss(toast.id)
+                manager.dismiss(toast)
             }
             .onLongPressGesture(
                 perform: {
