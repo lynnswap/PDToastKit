@@ -68,6 +68,9 @@ import Observation
 
         let task = Task { [weak self] in
             try? await Task.sleep(for: .seconds(type.duration))
+            if Task.isCancelled{
+                return
+            }
             self?.expireToast(item.id)
         }
         tasks[item.id] = task
@@ -94,6 +97,9 @@ import Observation
     func resume(_ item: ToastItem) {
         let task = Task { [weak self] in
             try? await Task.sleep(for: .seconds(item.type.duration))
+            if Task.isCancelled{
+                return
+            }
             self?.expireToast(item.id)
         }
         tasks[item.id] = task
