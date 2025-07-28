@@ -1,4 +1,4 @@
-#if DEBUG && canImport(SwiftUI)
+#if DEBUG
 import SwiftUI
 
 struct ToastExampleView: View {
