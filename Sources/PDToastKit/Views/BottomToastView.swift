@@ -70,12 +70,14 @@ private extension View{
             return self
                 .contentShape(RoundedRectangle(cornerRadius: 10))
                 .background(.thinMaterial,in:RoundedRectangle(cornerRadius: 10))
+                .compositingGroup()
                 .shadow(radius: 5)
         }
 #else
         return self
             .contentShape(RoundedRectangle(cornerRadius: 10))
             .background(.thinMaterial,in:RoundedRectangle(cornerRadius: 10))
+            .compositingGroup()
             .shadow(radius: 5)
 #endif
     }
