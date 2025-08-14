@@ -24,7 +24,7 @@ struct BottomToastView: View {
                     .padding(.leading, 6)
                 if let detail = item.detail {
                     Text(detail)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(.secondary)
                         .font(.caption)
                         .padding(.leading, 6)
                 }
