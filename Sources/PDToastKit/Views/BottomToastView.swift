@@ -15,7 +15,7 @@ struct BottomToastView: View {
             Image(systemName: item.type.iconName)
                 .symbolEffect(.bounce.wholeSymbol, options: .nonRepeating, value: animate)
                 .font(.system(size: 22))
-                .foregroundColor(item.type.color)
+                .foregroundStyle(item.type.color)
                 .padding(.leading, 6)
             VStack(alignment: .leading) {
                 Text(item.message)
