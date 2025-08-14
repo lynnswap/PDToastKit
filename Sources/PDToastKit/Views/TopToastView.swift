@@ -25,12 +25,12 @@ struct TopToastView: View {
                     VStack(alignment: .leading) {
                         Text(item.message)
                             .foregroundStyle(.primary)
-                            .font(.callout)
+                            .textScale(.default)
                             .padding(.leading, 6)
                         if let detail = item.detail{
                             Text(detail)
                                 .foregroundStyle(.secondary)
-                                .font(.caption)
+                                .textScale(.secondary)
                                 .padding(.leading, 6)
                         }
                     }
