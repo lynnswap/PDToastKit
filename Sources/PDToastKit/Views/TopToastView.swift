@@ -20,16 +20,16 @@ struct TopToastView: View {
                     Image(systemName: item.type.iconName)
                         .symbolEffect(.bounce.wholeSymbol, options: .nonRepeating, value: animate)
                         .font(.system(size: 22))
-                        .foregroundColor(item.type.color)
+                        .foregroundStyle(item.type.color)
                         .padding(.leading, 6)
                     VStack(alignment: .leading) {
                         Text(item.message)
-                            .foregroundColor(.primary)
+                            .foregroundStyle(.primary)
                             .font(.callout)
                             .padding(.leading, 6)
                         if let detail = item.detail{
                             Text(detail)
-                                .foregroundColor(.secondary)
+                                .foregroundStyle(.secondary)
                                 .font(.caption)
                                 .padding(.leading, 6)
                         }
